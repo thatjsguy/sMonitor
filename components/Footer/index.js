@@ -23,10 +23,9 @@ export class Footer extends Component<Props> {
     return (
       <View style={footer}>
         <Button
-          style={button}
-          color="#FFF"
+          color='#AAA'
           onPress={this.handleOnPress}
-          title="Refresh Data"
+          title='Refresh Data'
         />
       </View>
     );

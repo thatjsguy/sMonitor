@@ -5,6 +5,7 @@ import {
 export default StyleSheet.create({
   footer: {
     backgroundColor: '#000000',
-    padding: 20,
+    padding: 10,
+    display: 'flex',
   }
 });

@@ -1,53 +1,72 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+/* @flow */
 
 import React, { Component } from 'react';
 import {
+  ActivityIndicator,
   AppRegistry,
+  Modal,
   StyleSheet,
   Text,
-  View
+  View,
 } from 'react-native';
 
+import {
+  Footer,
+  Header,
+  Stats,
+} from './components/index';
+
+import config from './config/env.js';
+
+import styles from './styles';
+
 export default class sMonitor extends Component {
+  state = {
+    loading: false,
+  }
+  componentDidMount() {
+    this.getData();
+  }
+  getData = () => {
+    this.setState({ loading: true });
+    const { api } = config;
+    fetch(`${api.server}:${api.port}/status.json`)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({ loading: false });
+        this.setState({ ...responseJson });
+      })
+      .catch((error) => {
+        this.setState({ loading: false });
+        console.error(error);
+      });
+  }
   render() {
+    const { container, indicator, loadingText, modal } = styles;
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
+      <View style={container}>
+        <Modal
+          animationType='fade'
+          style={modal}
+          transparent
+          visible={this.state.loading}
+          onRequestClose={() => {}}
+        >
+          <View
+            style={indicator}
+          >
+            <Text style={loadingText}>Loading Data...</Text>
+            <ActivityIndicator size='large' />
+          </View>
+        </Modal>
+        <Header>sMonitor v0.1</Header>
+        <Stats {...this.state} />
+        <Footer
+          onPressReloadData={this.getData}
+        />
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
 
 AppRegistry.registerComponent('sMonitor', () => sMonitor);

@@ -18,32 +18,7 @@ import {
 
 import config from './config/env.js';
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 0,
-    backgroundColor: '#CCCCCC',
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    top: 0,
-  },
-  indicator: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    borderRadius: 5,
-    position: 'absolute',
-    left: '20%',
-    right: '20%',
-    bottom: '40%',
-    top: '40%',
-  },
-  loadingText: {
-    color: '#CDCDCD',
-    marginBottom: 10,
-  }
-});
+import styles from './styles';
 
 export default class sMonitor extends Component {
   state = {
@@ -83,7 +58,7 @@ export default class sMonitor extends Component {
             <ActivityIndicator size='large' />
           </View>
         </Modal>
-        <Header>sMonitor v1.0</Header>
+        <Header>sMonitor v0.1</Header>
         <Stats {...this.state} />
         <Footer
           onPressReloadData={this.getData}
